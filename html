@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Radio Tuner</title>
+      <style>
+        /* Basic styling for layout */
+        header {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+        }
+        .filter-group {
+            margin: 5px;
+            display: inline-block;
+        }
+        #results div {
+            cursor: pointer;
+            padding: 5px;
+            margin: 5px;
+            border: 1px solid #ddd;
+        }
+        /* Customizing the audio player */
+        #radioPlayer {
+            width: 100%;
+            height: 50px;
+        }
+        /* Custom control buttons */
+        .audio-control {
+            padding: 5px 10px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .audio-control:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="filter-group">
+            <label for="stationSearch">Let's Find a Radio Station :</label>
+            <input type="text" id="stationSearch" placeholder="Station Name">
+            <button onclick="searchStations()">Search</button>
+        </div>
+		Popular Shearch cbc, rock, ckro, french, english, Etc.
+    </header>
+
+    <audio controls id="radioPlayer">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="results">
+        <!-- Search results will be displayed here -->
+    </div>
+
+    <script>
+        // Load filter options
+        function loadFilterOptions() {
+            fetch('https://de1.api.radio-browser.info/json/countries')
+                .then(response => response.json())
+                .then(data => populateSelect('countrySelect', data, 'name'))
+                .catch(error => console.error('Error loading countries:', error));
+
+            fetch('https://de1.api.radio-browser.info/json/tags')
+                .then(response => response.json())
+                .then(data => populateSelect('styleSelect', data, 'name'))
+                .catch(error => console.error('Error loading tags:', error));
+
+            fetch('https://de1.api.radio-browser.info/json/languages')
+                .then(response => response.json())
+                .then(data => populateSelect('languageSelect', data, 'name'))
+                .catch(error => console.error('Error loading languages:', error));
+        }
+
+        // Populate select element with data
+        function populateSelect(elementId, data, propertyName) {
+            const selectElement = document.getElementById(elementId);
+            data.forEach(item => {
+                let option = document.createElement('option');
+                option.value = item[propertyName];
+                option.textContent = item[propertyName];
+                selectElement.appendChild(option);
+            });
+        }
+
+        // Search stations based on input and display results
+        function searchStations() {
+            var searchTerm = document.getElementById('stationSearch').value;
+            fetch(`https://de1.api.radio-browser.info/json/stations/search?name=${encodeURIComponent(searchTerm)}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayResults(data);
+                })
+                .catch(error => console.error('Error searching stations:', error));
+        }
+
+        // Function to display the list of stations
+        function displayResults(data) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = ''; // Clear previous results
+
+            data.forEach(station => {
+                const stationDiv = document.createElement('div');
+                stationDiv.textContent = station.name;
+                stationDiv.onclick = () => {
+                    document.getElementById('radioPlayer').src = station.url;
+                };
+                resultsContainer.appendChild(stationDiv);
+            });
+        }
+
+        // Initial setup
+        loadFilterOptions();
+    </script>
+</body>
+</html>
