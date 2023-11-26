@@ -46,7 +46,7 @@
             <input type="text" id="stationSearch" placeholder="Station Name">
             <button onclick="searchStations()">Search</button>
         </div>
-		Popular Shearch cbc, rock, ckro, french, english, Etc.
+		Popular Search cbc, rock, ckro, french, english, Jazz, Etc.
     </header>
 
     <audio controls id="radioPlayer">
@@ -59,34 +59,12 @@
 
     <script>
         // Load filter options
-        function loadFilterOptions() {
-            fetch('https://de1.api.radio-browser.info/json/countries')
-                .then(response => response.json())
-                .then(data => populateSelect('countrySelect', data, 'name'))
-                .catch(error => console.error('Error loading countries:', error));
-
-            fetch('https://de1.api.radio-browser.info/json/tags')
-                .then(response => response.json())
-                .then(data => populateSelect('styleSelect', data, 'name'))
-                .catch(error => console.error('Error loading tags:', error));
-
-            fetch('https://de1.api.radio-browser.info/json/languages')
-                .then(response => response.json())
-                .then(data => populateSelect('languageSelect', data, 'name'))
-                .catch(error => console.error('Error loading languages:', error));
-        }
+     
 
         // Populate select element with data
-        function populateSelect(elementId, data, propertyName) {
-            const selectElement = document.getElementById(elementId);
-            data.forEach(item => {
-                let option = document.createElement('option');
-                option.value = item[propertyName];
-                option.textContent = item[propertyName];
-                selectElement.appendChild(option);
-            });
-        }
-
+      
+	  
+	  
         // Search stations based on input and display results
         function searchStations() {
             var searchTerm = document.getElementById('stationSearch').value;
@@ -114,7 +92,7 @@
         }
 
         // Initial setup
-        loadFilterOptions();
+        
     </script>
 </body>
 </html>
