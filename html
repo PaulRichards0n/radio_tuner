@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simple Radio Tuner</title>
       <style>
         /* Basic styling for layout */
@@ -26,7 +27,7 @@
         }
         /* Custom control buttons */
         .audio-control {
-            padding: 5px 10px;
+            padding: 10px 15px;
             margin: 5px;
             background-color: #4CAF50;
             color: white;
@@ -37,12 +38,36 @@
         .audio-control:hover {
             background-color: #45a049;
         }
+		/* Adjust button size on smaller screens */
+@media screen and (max-width: 600px) {
+    .audio-control {
+        padding: 8px 10px;
+    }
+	.filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+    .filter-group {
+        width: 90%;
+    }
+}
+	
+	
+	
+	
+	
+	
+	
     </style>
 </head>
 <body>
-    <header>
+<img src="dj.png" alt="Description of the image" style="width: 100%;">
+     <header>
         <div class="filter-group">
-            <label for="stationSearch">Let's Find a Radio Station :</label>
+            <label for="stationSearch">Find a Radio Station:</label>
             <input type="text" id="stationSearch" placeholder="Station Name">
             <button onclick="searchStations()">Search</button>
         </div>
